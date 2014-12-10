@@ -5,7 +5,6 @@ from boto.s3.key import Key
 from gzipstream import GzipStreamFile
 
 import sys
-import itertools
 import gzip
 import multiprocessing
 import datetime
@@ -85,7 +84,7 @@ def process_record(payload):
 
     for ul in UL.finditer(body):
         lis = [i.strip() for _, i in LI.findall(ul.group(2))]
-        if all(ITEM.match(i) for i in lis) len(lis) > 2:
+        if all(ITEM.match(i) for i in lis) and len(lis) > 2:
             all_items.add(tuple(lis))
 
     return all_items
