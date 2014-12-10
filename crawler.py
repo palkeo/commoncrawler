@@ -12,6 +12,8 @@ import re
 
 class Process:
     def __init__(self):
+        global worker
+
         self.count = 0
         self.start = datetime.datetime.now()
 
@@ -69,7 +71,7 @@ From there, you will probably like to change some things :)
 
 UL = re.compile(r"<(ul|dl)[^>]*>(.+?)</\1>", re.IGNORECASE | re.DOTALL)
 LI = re.compile(r"<(li|dt)[^>]*>(.+?)</\1>", re.IGNORECASE)
-ITEM = re.compile(r"\w+", re.IGNORECASE)
+ITEM = re.compile(r"^[\w -]{2,40}$", re.IGNORECASE)
 
 def process_record(payload):
     # The HTTP response is defined by a specification: first part is headers (metadata)
@@ -94,7 +96,7 @@ def worker(doc_q, stdout_lock):
         all_items = process_record(doc_q.get())
         with stdout_lock:
             for items in all_items:
-                print(u'|'.join(items))
+                print('|'.join(items))
         doc_q.task_done()
 
 if __name__ == '__main__':
