@@ -1,0 +1,3 @@
+boto
+warc
+https://github.com/palkeo/gzipstream/archive/master.zip
